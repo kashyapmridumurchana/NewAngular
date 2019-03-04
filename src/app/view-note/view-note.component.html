@@ -1,0 +1,24 @@
+
+<app-note 
+(createOrUpdateNote)="onCreateOrUpdateNote($event)"
+ [templateType]="'create'">
+
+
+</app-note>
+
+
+
+
+<div class="move" *ngFor="let note of notes">
+  
+  <app-note [data]="note" 
+  
+ 
+
+  (open)="openDialog($event)" 
+  [templateType]="'view'"
+   (btnClick)="onAction($event)">
+  
+  </app-note>
+
+</div>

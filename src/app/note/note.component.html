@@ -1,0 +1,102 @@
+<div fxLayout="coloumn" fxLayoutAlign="space-evenly center">
+  <form [formGroup]="createNoteForm">
+    &nbsp;
+    &nbsp;
+    &nbsp;
+
+
+    <mat-toolbar>
+      <mat-accordion>
+        <mat-expansion-panel hideToggle="true" [expanded]="true" (opened)="showHeader = false"
+          (closed)="onSubmit(createNoteForm.value)"
+           (closed)="showHeader = true" 
+           #expPannel style="width: 600px">
+          <mat-expansion-panel-header>
+            <ng-container *ngIf="showHeader;else tempTtext">
+              <mat-panel-title>
+                <h5>Take a note..</h5>
+
+                <div style="text-align:right; width:100%;">
+                  <button mat-icon-button matTooltip="new list">
+                    <mat-icon>check_box</mat-icon>
+                  </button>
+
+
+
+                  <button mat-icon-button matTooltip="new note with image">
+                    <mat-icon>image</mat-icon>
+                  </button>
+                </div>
+
+
+              </mat-panel-title>
+            </ng-container>
+            <ng-template #tempTtext>
+
+            </ng-template>
+          </mat-expansion-panel-header>
+          <mat-panel-description>
+            <input class="noBorderAndBackground" placeholder="Title" [(ngModel)]="data.title" (click)="openNote()"
+              formControlName="title" [ngClass]="{ 'is-invalid': submitted && f.title.errors }"
+              style="width: 500px;">&nbsp;
+
+
+            <button mat-icon-button matTooltip="pin">
+              <mat-icon (click)="onClickBtn({name: 'pin'})">colorize</mat-icon>
+            </button>
+
+
+          </mat-panel-description>
+          <mat-panel-description>
+            <textarea class="noBorderAndBackground" placeholder="Take a note.." [(ngModel)]="data.description"
+              formControlName="description" [ngClass]="{ 'is-invalid': submitted && f.description.errors }"
+              style="width:500px; "></textarea>
+          </mat-panel-description>
+          <mat-panel-description>
+            <div class="container">
+              <div class="buttons">
+                <button *ngFor="let button of buttons" mat-icon-button matTooltip={{button.tooltip}}>
+                  <mat-icon (click)="onClickBtn(button)">{{button.name}}</mat-icon>
+
+                </button>
+              
+                <ng-container [ngSwitch]="templateType">
+                  <ng-container *ngSwitchCase="'view'">
+                  <ng-container *ngTemplateOutlet="viewTemp"></ng-container>
+                </ng-container>
+                  <ng-container *ngSwitchDefault>
+                  <ng-container *ngTemplateOutlet="defaultTemp"></ng-container>
+                  </ng-container>
+               </ng-container>
+
+
+              </div>
+              <div class="close-button">
+                <button mat-icon-button matTooltip="close" (click)="onClose()">
+                  Close
+                </button>
+              </div>
+            </div>
+          </mat-panel-description>
+
+        </mat-expansion-panel>
+      </mat-accordion>
+
+    </mat-toolbar>
+  </form>
+</div>
+
+
+
+<ng-template #viewTemp>
+  <button mat-icon-button [matMenuTriggerFor]="more" matTooltip="more">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #more="matMenu" class="morecard">
+    <button mat-button (click)="onClickBtn({name: 'delete'})">Delete Note</button>
+  </mat-menu>
+</ng-template>
+
+<ng-template #defaultTemp>
+  ...
+</ng-template>
